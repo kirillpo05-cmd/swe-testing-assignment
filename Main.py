@@ -14,6 +14,7 @@ class CalculatorApp:
         
         # Variables
         self.display_var = tk.StringVar(value="0")
+        self.result_displayed = False  # Track if result was just displayed
         
         # Create GUI
         self.create_widgets()
@@ -99,12 +100,16 @@ class CalculatorApp:
         if char == "C":
             # Clear display
             self.display_var.set("0")
+            self.result_displayed = False
         elif char == "=":
             # Calculate result
             self.calculate()
         elif char in ["+", "-", "*", "/"]:
             # Handle operators
-            if current == "0":
+            if self.result_displayed:
+                # Continue calculation with the displayed result
+                self.result_displayed = False
+            elif current == "0":
                 self.display_var.set(char)
             elif current[-1] in ["+", "-", "*", "/"]:
                 # Replace operator if last character is an operator
@@ -113,8 +118,10 @@ class CalculatorApp:
                 self.display_var.set(current + char)
         else:
             # Handle numbers and decimal point
-            if current == "0" and char != ".":
+            if self.result_displayed or current == "0":
+                # Start new calculation
                 self.display_var.set(char)
+                self.result_displayed = False
             elif char == "." and "." in current:
                 # Prevent multiple decimal points
                 return
@@ -127,8 +134,10 @@ class CalculatorApp:
             expression = self.display_var.get()
             result = eval(expression)
             self.display_var.set(str(result))
+            self.result_displayed = True
         except (SyntaxError, ZeroDivisionError, NameError):
             self.display_var.set("Error")
+            self.result_displayed = False
 
 
 if __name__ == "__main__":
