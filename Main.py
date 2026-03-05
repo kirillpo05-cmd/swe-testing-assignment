@@ -30,8 +30,9 @@ class CalculatorApp:
             font=("Arial", 28),
             border=0,
             justify="right",
-            bg="#333333",
-            fg="#FFFFFF"
+            bg="#F8F8F8",
+            fg="#000000",
+            state='readonly'
         )
         display.pack(fill=tk.BOTH, padx=10, pady=10)
         
