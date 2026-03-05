@@ -15,6 +15,7 @@ class CalculatorApp:
         # Variables
         self.display_var = tk.StringVar(value="0")
         self.result_displayed = False  # Track if result was just displayed
+        self.error_displayed = False   # Track if error is displayed
         
         # Create GUI
         self.create_widgets()
@@ -101,6 +102,14 @@ class CalculatorApp:
             # Clear display
             self.display_var.set("0")
             self.result_displayed = False
+            self.error_displayed = False
+        elif self.error_displayed:
+            # After error, only allow numbers and decimal point to start new calculation
+            if char in "0123456789.":
+                self.display_var.set(char)
+                self.error_displayed = False
+            # Ignore other buttons when error is displayed
+            return
         elif char == "=":
             # Calculate result
             self.calculate()
@@ -135,9 +144,11 @@ class CalculatorApp:
             result = eval(expression)
             self.display_var.set(str(result))
             self.result_displayed = True
+            self.error_displayed = False
         except (SyntaxError, ZeroDivisionError, NameError):
             self.display_var.set("Error")
             self.result_displayed = False
+            self.error_displayed = True
 
 
 if __name__ == "__main__":
