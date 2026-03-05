@@ -81,7 +81,8 @@ class CalculatorApp:
             border=0,
             activebackground=bg_color,
             activeforeground=fg_color,
-            height=2
+            height=2,
+            command=lambda: self.on_button_click(text)
         )
         button.grid(row=row, column=col, columnspan=colspan, sticky="nsew", padx=5, pady=5)
         
@@ -89,6 +90,44 @@ class CalculatorApp:
         parent.grid_rowconfigure(row, weight=1)
         for col_idx in range(4):
             parent.grid_columnconfigure(col_idx, weight=1)
+    
+    def on_button_click(self, char):
+        """Handle button click events."""
+        current = self.display_var.get()
+        
+        if char == "C":
+            # Clear display
+            self.display_var.set("0")
+        elif char == "=":
+            # Calculate result
+            self.calculate()
+        elif char in ["+", "-", "*", "/"]:
+            # Handle operators
+            if current == "0":
+                self.display_var.set(char)
+            elif current[-1] in ["+", "-", "*", "/"]:
+                # Replace operator if last character is an operator
+                self.display_var.set(current[:-1] + char)
+            else:
+                self.display_var.set(current + char)
+        else:
+            # Handle numbers and decimal point
+            if current == "0" and char != ".":
+                self.display_var.set(char)
+            elif char == "." and "." in current:
+                # Prevent multiple decimal points
+                return
+            else:
+                self.display_var.set(current + char)
+    
+    def calculate(self):
+        """Evaluate the expression and display the result."""
+        try:
+            expression = self.display_var.get()
+            result = eval(expression)
+            self.display_var.set(str(result))
+        except (SyntaxError, ZeroDivisionError, NameError):
+            self.display_var.set("Error")
 
 
 if __name__ == "__main__":
