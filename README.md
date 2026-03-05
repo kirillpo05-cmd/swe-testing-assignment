@@ -14,14 +14,29 @@ A simple GUI calculator application built with Python and Tkinter.
 
 - Python 3.x
 - Tkinter (usually included with Python installations)
+- pytest (for running unit tests)
 
 ## How to Run
 
 1. Make sure you have Python 3.x installed
-2. Run the application:
+2. Install pytest: `pip install pytest`
+3. Run the application:
    ```bash
    python Main.py
    ```
+
+## Testing
+
+Run the unit tests with:
+```bash
+python -m pytest test_calculator.py -v
+```
+
+The test suite includes 13 comprehensive unit tests covering:
+- All four basic arithmetic operations (addition, subtraction, multiplication, division)
+- Edge cases: division by zero, negative numbers, decimal numbers, large numbers
+- Error handling and state management
+- Input validation (multiple decimal points, operator replacement)
 
 ## Usage
 
@@ -41,7 +56,9 @@ A simple GUI calculator application built with Python and Tkinter.
 
 ```
 swe-testing-assignment/
-├── Main.py          # Main calculator application
-├── README.md        # This file
-└── .gitignore       # Git ignore file
+├── Main.py              # Main GUI application
+├── calculator.py        # Core calculator logic (testable)
+├── test_calculator.py   # Unit tests for calculator logic
+├── README.md           # This file
+└── .gitignore          # Git ignore file
 ```
