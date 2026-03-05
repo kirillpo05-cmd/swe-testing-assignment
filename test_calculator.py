@@ -3,7 +3,7 @@ Unit tests for the Calculator class.
 Run with: python -m pytest test_calculator.py -v
 """
 
-import pytest
+
 from calculator import Calculator
 
 
